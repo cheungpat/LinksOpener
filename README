@@ -1,0 +1,13 @@
+Links Opener
+============
+
+Links Opener is a Safari Extension that makes it easy to open hyperlinks in
+web page. Each hyperlink is opened in seperate tabs of the same window.
+
+When installed, Links Opener will look for hyperlinks in the selected part of
+the web page. To use Links Opener, right click on a selection of text and
+select the option "Open Selected Links in Tabs" provided in the context menu.
+
+Links Opener is licensed in BSD Software License. Please read LICENSE.
+
+How am I coding? Let me know at _me at cheungpat.com_.

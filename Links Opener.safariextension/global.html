@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<!--
+Copyright (c) 2010 Kwok-kuen Cheung.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<script>
+
+safari.application.addEventListener("command", handleCommand, false);
+safari.application.addEventListener("contextmenu", handleContextMenu, false);
+
+function handleCommand(event) {
+    if (event.command == "openLinks") {
+        if (event.userInfo != null && event.userInfo['links'] != null)
+        {
+            // open links specified in context menu user info
+            var links = event.userInfo['links'];
+
+            if (links.length < 15 || confirm(
+                "Safari is about to open " + links.length
+                + " tabs. Do you want to continue?"))
+            {
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i] == null || links[i].trim() == "") continue;
+                    var newTab = safari.application.activeBrowserWindow
+                        .openTab("background");
+                    newTab.url = links[i];
+                }
+            }
+        }
+    }
+}
+
+function handleContextMenu(event) {
+    // display menu item if there is at least one link under selection
+    if (event.userInfo != null && event.userInfo['links'] != null &&
+        event.userInfo['links'].length > 0)
+    {
+        var menuName = event.userInfo['links'].length > 1
+            ? "Open Selected Links in Tabs" : "Open Selected Link in Tab"
+        event.contextMenu.appendContextMenuItem("openLinks", menuName);
+    }
+}
+
+</script>
